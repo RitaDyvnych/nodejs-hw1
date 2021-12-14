@@ -34,16 +34,21 @@ const invokeAction = async({ action, id, name, email, phone }) => {
       break;
 
     case 'add':
-      const newContact = await addContact(name, email, phone)
-      console.log(chalk.green('Add new contact'))
-      console.log(newContact)
+      if (name && email && phone) {
+        const newContact = await addContact(name, email, phone)
+        console.log(chalk.green('Add new contact'))
+        console.log(newContact)
+      }
+      else {
+        console.log(chalk.red
+          ('Incorrect data'))
+      }
       break;
 
     case 'remove':
       const delContact = await removeContact(id)
-      if (delContact) {
+      if (delContact !== -1) {
         console.log(chalk.green('Contact deleted'))
-        console.log(delContact)
       }
       else {
         console.log(chalk.yellow('Contact not found'))
@@ -55,4 +60,4 @@ const invokeAction = async({ action, id, name, email, phone }) => {
   }
 }
 
-invokeAction(argv).then(()=>console.log('Operation success'))
+invokeAction(argv)
